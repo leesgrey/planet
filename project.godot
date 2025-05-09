@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="planet"
-run/main_scene="uid://cd8tlxxo81x2a"
-config/features=PackedStringArray("4.4", "Forward Plus")
+run/main_scene="res://node_3d.tscn"
+config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
 [input]

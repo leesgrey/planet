@@ -1,9 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://cd8tlxxo81x2a"]
+[gd_scene load_steps=11 format=3 uid="uid://cd8tlxxo81x2a"]
 
-[ext_resource type="Script" uid="uid://cyjkqaonx5qw1" path="res://Scripts/character.gd" id="1_a202f"]
-[ext_resource type="Script" uid="uid://d17xtelhjruyv" path="res://Scripts/character_debug.gd" id="2_noarx"]
-[ext_resource type="Script" uid="uid://dk3vse02t0m6r" path="res://Scripts/camera.gd" id="3_a0tk4"]
-[ext_resource type="Script" uid="uid://dexn11fmykswp" path="res://Scripts/camera_debug.gd" id="4_r3fl7"]
+[ext_resource type="Script" path="res://Scripts/character.gd" id="1_a202f"]
+[ext_resource type="Script" path="res://Scripts/character_debug.gd" id="2_noarx"]
+[ext_resource type="Script" path="res://Scripts/camera.gd" id="3_a0tk4"]
+[ext_resource type="Script" path="res://Scripts/camera_debug.gd" id="4_r3fl7"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_4xowi"]
 radius = 40.0
@@ -11,8 +11,6 @@ height = 80.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_r3fl7"]
 radius = 40.0
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_r3fl7"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_a202f"]
 top_radius = 50.0
@@ -36,10 +34,6 @@ skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("SphereShape3D_r3fl7")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.0665, 0, 43.9257)
-mesh = SubResource("CylinderMesh_r3fl7")
 
 [node name="Ring" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
@@ -72,21 +66,20 @@ script = ExtResource("2_noarx")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.67798, 0.73508, 0, -0.73508, 0.67798, 0, 24.1943, 54.9329)
 
-[node name="CameraPivot" type="Node3D" parent="." node_paths=PackedStringArray("player_node", "debug", "camera")]
+[node name="CameraPivot" type="Node3D" parent="." node_paths=PackedStringArray("player_node", "debug", "camera", "planet")]
 script = ExtResource("3_a0tk4")
 player_node = NodePath("../Player")
 margin = 200.0
 debug = NodePath("../Control")
 camera = NodePath("Camera3D")
+planet = NodePath("../StaticBody3D/Planet")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 0.99996, -0.00900584, 0, 0.00900584, 0.99996, 0, 4.2276, 60.3198)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 script = ExtResource("4_r3fl7")

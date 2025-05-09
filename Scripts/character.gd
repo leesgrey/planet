@@ -10,6 +10,7 @@ var target_velocity = Vector3.ZERO
 func _physics_process(_delta):
 	var direction = Vector3.ZERO
 
+	#  @todo: change to input axis, combine
 	if Input.is_action_pressed("move_right"):
 		var to_origin: Vector3 = position - to_local(Vector3(0, 0, 0))
 		direction += Vector3.UP.cross(to_origin.normalized())
@@ -19,24 +20,14 @@ func _physics_process(_delta):
 		direction += Vector3.UP.cross(from_origin.normalized())
 
 	if Input.is_action_pressed("move_up"):
-		var screen_position = camera.unproject_position(position)
-		print("screen position: " + str(screen_position))
-		var from_center = screen_position.x - (DisplayServer.window_get_size().x / 2.)
-		print("from center: " + str(from_center))
-		var camera_direction = camera.get_global_transform().basis.z
-		camera_direction.y = 0
-		print("camera direction: " + str(camera_direction))
-		direction += camera_direction.rotated(Vector3(0, 1, 0), from_center * 0.1)
+		var to_camera = position - camera.position
+		to_camera.y = 0
+		direction += to_camera.normalized()
 
 	if Input.is_action_pressed("move_down"):
-		var screen_position = camera.unproject_position(position)
-		print("screen position: " + str(screen_position))
-		var from_center = screen_position.x - (DisplayServer.window_get_size().x / 2.)
-		print("from center: " + str(from_center))
-		var camera_direction = camera.get_global_transform().basis.z
-		camera_direction.y = 0
-		print("camera direction: " + str(camera_direction))
-		direction += -camera_direction.rotated(Vector3(0, 1, 0), from_center * 0.1)
+		var from_camera = camera.position - position
+		from_camera.y = 0
+		direction += from_camera.normalized()
 
 	velocity = direction * speed
 	move_and_slide()
