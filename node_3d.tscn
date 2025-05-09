@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://cd8tlxxo81x2a"]
+[gd_scene load_steps=9 format=3 uid="uid://cd8tlxxo81x2a"]
 
 [ext_resource type="Script" path="res://Scripts/character.gd" id="1_a202f"]
 [ext_resource type="Script" path="res://Scripts/character_debug.gd" id="2_noarx"]
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="3_a0tk4"]
-[ext_resource type="Script" path="res://Scripts/camera_debug.gd" id="4_r3fl7"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_4xowi"]
 radius = 40.0
@@ -21,8 +20,6 @@ height = 1.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_a0tk4"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_r3fl7"]
-
 [node name="Node3D" type="Node3D"]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
@@ -39,11 +36,11 @@ shape = SubResource("SphereShape3D_r3fl7")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 mesh = SubResource("CylinderMesh_a202f")
 
-[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera", "debug")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.821121, 45)
+[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("orbit_camera", "debug")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.7871, 1, 39.237)
 script = ExtResource("1_a202f")
 speed = 10.0
-camera = NodePath("../CameraPivot/Camera3D")
+orbit_camera = NodePath("../CameraPivot")
 debug = NodePath("CharacterDebug")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
@@ -55,31 +52,20 @@ shape = SubResource("CapsuleShape3D_noarx")
 mesh = SubResource("CapsuleMesh_a0tk4")
 skeleton = NodePath("../../..")
 
-[node name="Face" type="MeshInstance3D" parent="Player/Mesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.240878, -0.148403)
-mesh = SubResource("SphereMesh_r3fl7")
-skeleton = NodePath("../../..")
-
 [node name="CharacterDebug" type="Node3D" parent="Player"]
 script = ExtResource("2_noarx")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.67798, 0.73508, 0, -0.73508, 0.67798, 0, 24.1943, 54.9329)
 
-[node name="CameraPivot" type="Node3D" parent="." node_paths=PackedStringArray("player_node", "debug", "camera", "planet")]
+[node name="CameraPivot" type="Node3D" parent="." node_paths=PackedStringArray("player_node", "camera", "planet")]
+transform = Transform3D(0.829038, 0, 0.559193, 0, 1, 0, -0.559193, 0, 0.829038, 0, 0, 0)
+visible = false
 script = ExtResource("3_a0tk4")
 player_node = NodePath("../Player")
 margin = 200.0
-debug = NodePath("../Control")
 camera = NodePath("Camera3D")
 planet = NodePath("../StaticBody3D/Planet")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 0.99996, -0.00900584, 0, 0.00900584, 0.99996, 0, 4.2276, 60.3198)
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("4_r3fl7")

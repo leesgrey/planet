@@ -1,13 +1,10 @@
 extends CharacterBody3D
 
 @export var speed: float
-@export var camera: Camera3D
+@export var orbit_camera: OrbitingCamera
 @export var debug: Node3D
 
-var target_velocity = Vector3.ZERO
-
-
-func _physics_process(_delta):
+func _physics_process(delta):
 	var direction = Vector3.ZERO
 
 	#  @todo: change to input axis, combine
@@ -20,16 +17,19 @@ func _physics_process(_delta):
 		direction += Vector3.UP.cross(from_origin.normalized())
 
 	if Input.is_action_pressed("move_up"):
-		var to_camera = position - camera.position
+		var to_camera = position - orbit_camera.camera.global_position
 		to_camera.y = 0
 		direction += to_camera.normalized()
 
 	if Input.is_action_pressed("move_down"):
-		var from_camera = camera.position - position
+		var from_camera = orbit_camera.camera.global_position - position
 		from_camera.y = 0
 		direction += from_camera.normalized()
 
-	velocity = direction * speed
-	move_and_slide()
+	velocity = direction.normalized() * speed
+	if (velocity != Vector3.ZERO):
+		move_and_slide()
+	if (velocity != Vector3.ZERO):
+		orbit_camera.update_camera(velocity * delta)
 
 	debug.update_all(direction * 3)
